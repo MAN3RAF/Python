@@ -77,6 +77,7 @@ class EventStream(DataStream):
                 error += 1
         return f"Event analysis: {data_len} events, {error} error detected"
 
+
 class StreamProcessor():
     def __init__(self) -> None:
         self.streams: List[DataStream] = []
