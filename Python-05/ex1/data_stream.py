@@ -23,7 +23,6 @@ class DataStream(ABC):
         }
 
 
-
 class SensorStream(DataStream):
     def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
