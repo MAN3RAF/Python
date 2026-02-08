@@ -16,15 +16,15 @@ class DataProcessor(ABC):
 
 
 class NumericProcessor(DataProcessor):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     def process(self, data: Any) -> str:
-        data_len = len(data)
-        total = sum(data)
-        avg = total / data_len
+        data_len: int = len(data)
+        total: float = sum(data)
+        avg: float = total / data_len
 
-        result = f"Processed {data_len} numeric values, sum={total}, avg={avg}"
+        result: str = f"Processed {data_len} numeric values, sum={total}, avg={avg}"
         return result
 
     def validate(self, data: Any) -> bool:
@@ -39,9 +39,9 @@ class NumericProcessor(DataProcessor):
 class TextProcessor(DataProcessor):
     def process(self, data: Any) -> str:
 
-        data_len = len(data)
-        data_words = len(data.split())
-        result = f"Processed text: {data_len} characters, {data_words} words"
+        data_len: int = len(data)
+        data_words: int = len(data.split())
+        result: str = f"Processed text: {data_len} characters, {data_words} words"
 
         return result
 
@@ -53,12 +53,12 @@ class TextProcessor(DataProcessor):
             return True
 
 class LogProcessor(DataProcessor):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     def process(self, data: Any) -> str:
 
-        result = ""
+        result: str = ""
         if data.startswith("ERROR"):
             result = "[ALERT] ERROR level detected: Connection timeout"
         elif data.startswith("INFO"):
@@ -75,13 +75,13 @@ class LogProcessor(DataProcessor):
         return True
 
 
-def main():
+def main() -> None:
     print("=== CODE NEXUS - DATA PROCESSOR FOUNDATION ===")
 
     print("\nInitializing Numeric Processor...")
 
-    number = NumericProcessor()                                                                                                                                                                                                                                                                                                                                                            
-    nbr_data = [1, 2, 3, 4, 5]
+    number: NumericProcessor = NumericProcessor()                                                                                                                                                                                                                                                                                                                                                                            
+    nbr_data: List[int] = [1, 2, 3, 4, 5]
 
     print(f"Processing data: {nbr_data}")
     if number.validate(nbr_data):
@@ -92,8 +92,8 @@ def main():
 
     print("\nInitializing Text Processor...")
     
-    text = TextProcessor()
-    txt_data = "Hello Nexus World"
+    text: TextProcessor = TextProcessor()
+    txt_data: str = "Hello Nexus World"
 
     print(f'Processing data: "{txt_data}"')
 
@@ -105,9 +105,9 @@ def main():
         print(f"ERROR: Data '{txt_data}' is invalid")
 
     print("\nInitializing Log Processor...")
-    log = LogProcessor()
+    log: LogProcessor = LogProcessor()
 
-    log_data = "ERROR: Connection timeout"
+    log_data: str = "ERROR: Connection timeout"
 
     print(f'Processing data: "{log_data}"')
 
@@ -121,12 +121,12 @@ def main():
 
     print("Processing multiple data types through same interface...")
 
-    processors = [NumericProcessor(), TextProcessor(), LogProcessor()]
-    inputs = [[1, 2, 3], "Hello Nexus", "INFO: System ready"]
+    processors: List[DataProcessor] = [NumericProcessor(), TextProcessor(), LogProcessor()]
+    inputs: List[Union[List[int], str]] = [[1, 2, 3], "Hello Nexus", "INFO: System ready"]
 
     for i in range(len(processors)):
-        process = processors[i]
-        input = inputs[i]
+        process: DataProcessor = processors[i]
+        input: Union[List[int], str] = inputs[i]
 
         try:
             if process.validate(input):
