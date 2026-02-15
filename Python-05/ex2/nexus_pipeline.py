@@ -28,7 +28,7 @@ class TransformStage:
 
         if isinstance(data, str):
             if "," in data:
-                if not "admin" in data:
+                if "admin" not in data:
                     print("Transform: Parsed and structured data")
                 splited: List[str] = data.split(",")
                 if len(splited) >= 2:
@@ -76,8 +76,8 @@ class OutputStage:
                     return ("processing resumed")
                 else:
                     return (
-                        f"{data['first']} activity logged: "
-                        f"1 {data['second']} processed"
+                        f"{(data['first'].capitalize())} activity logged: "
+                        f"1 {data['second']}s processed"
                     )
 
             if data['type'] == "stream":
@@ -162,9 +162,9 @@ def main() -> None:
 
     print("Creating Data Processing Pipeline...")
 
-    pipe1: JSONAdapter = JSONAdapter("01")
-    pipe2: CSVAdapter = CSVAdapter("02")
-    pipe3: StreamAdapter = StreamAdapter("03")
+    pipe1: JSONAdapter = JSONAdapter("A")
+    pipe2: CSVAdapter = CSVAdapter("B")
+    pipe3: StreamAdapter = StreamAdapter("C")
     pipes: List[ProcessingPipeline] = [pipe1, pipe2, pipe3]
 
     pipe_ids: List[str] = [f"Pipeline {p.pipeline_id}" for p in pipes]
@@ -185,20 +185,20 @@ def main() -> None:
     json_data: Dict[str, Any] = {
         "sensor": "temp", "value": 23.5, "unit": "C"
     }
-    print(f"Input: {json_data}")
-    res_json: Optional[Any] = manager.process_data("01", json_data)
+    print('Input: {"sensor": "temp", "value": 23.5, "unit": "C"}')
+    res_json: Optional[Any] = manager.process_data("A", json_data)
     print(f"Output: {res_json}")
 
     print("\nProcessing CSV data through same pipeline...")
     csv_data: str = "user,action,timestamp"
     print(f'Input: "{csv_data}"')
-    res_csv: Optional[Any] = manager.process_data("02", csv_data)
+    res_csv: Optional[Any] = manager.process_data("B", csv_data)
     print(f"Output: {res_csv}")
 
     print("\nProcessing Stream data through same pipeline...")
-    stream_data: List[float] = [20.3, 22.1, 26.0, 24.4, 28.2]
-    print(f"Input: {stream_data}")
-    res_stream: Optional[Any] = manager.process_data("03", stream_data)
+    stream_data: List[float] = [20.3, 20.6, 25.0, 20.4, 24.2]
+    print("Input: Real-time sensor stream")
+    res_stream: Optional[Any] = manager.process_data("C", stream_data)
     print(f"Output: {res_stream}")
 
     print("\n=== Pipeline Chaining Demo ===")
@@ -214,16 +214,16 @@ def main() -> None:
 
     bad_data: str = "ERROR_IN_HERE"
     try:
-        manager.process_data("02", bad_data)
+        manager.process_data("B", bad_data)
 
     except Exception as e:
-        print(f"Error detected in stage 2: {e}")
+        print(f"Error detected in Stage 2: {e}")
         print("Recovery initiated: Switching to backup processor")
 
         recovery_data: str = "admin,system_restore"
 
         result_recovery: Optional[Any] = manager.process_data(
-            "02", recovery_data
+            "B", recovery_data
         )
 
         print(f"Recovery successful: Pipeline restored, {result_recovery}")
