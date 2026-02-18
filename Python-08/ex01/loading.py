@@ -35,6 +35,7 @@ def check_all():
 	
 	return "Good"
 
+
 def main():
 
 	if not check_all():
@@ -45,15 +46,44 @@ def main():
 	import numpy as np
 
 	print("\nAnalyzing Matrix data...")
-	
+	print("")
 
-	data = {'GTA III': 250, 'Vice City': 300}
+	signal = np.full(1, 1000)
+	print(f"Processing {signal[0]} data points...")
 
-	df = pd.DataFrame(list(data.items()), columns=["Game", "Income (Millions USD)"])
-	df.plot.bar(x="Game", y="Income (Millions USD)", legend=False)
+	# Create dataset
+	data = {
+		"Game": [
+			"GTA III",
+        	"Vice City",
+        	"San Andreas",
+        	"GTA IV",
+        	"GTA V",
+			],
+    	"Revenue (Billion USD)": [
+        	1.0,   # GTA III
+        	1.2,   # Vice City
+        	1.7,   # San Andreas
+        	2.0,   # GTA IV
+        	8.8,   # GTA V
+			]
+	}
 
-	plt.xticks(rotation=0)
-	filename = "matrix_analysis"
+	print("Generating visualization...\n")
+
+	df = pd.DataFrame(data)
+
+	# Create bar chart
+	plt.figure(figsize=(10, 6))
+	plt.bar(df["Game"], df["Revenue (Billion USD)"])
+
+	# Add labels and title
+	plt.title("Estimated Revenue of GTA Series")
+	plt.xlabel("Game")
+	plt.ylabel("Revenue (Billion USD)")
+	plt.xticks(rotation=15)
+	plt.tight_layout()
+	filename = "matrix_analysis.png"
 	plt.savefig(filename)
 
 	print("Analysis complete!")
