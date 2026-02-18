@@ -37,33 +37,44 @@ def check_all():
 
 def main():
 
+	if not check_all():
+		sys.exit(1)
+
 	import matplotlib.pyplot as plt
 	import pandas as pd
 	import numpy as np
 
-
-	if not check_all():
-		sys.exit(1)
-
 	print("\nAnalyzing Matrix data...")
 
-	np.random.seed(1337)
-	size = 1000
+	years = np.arange(2015, 2023)
+	
+	base_players = 8
 
-	time = np.arange(size)
-	signal = np.sin(time *0.02) + np.random.normal(0, 0.5, size)
+	growth = np.linspace(0, 12, len(years))
+	spikes = np.random.normal(0, 0.8, len(years))
+	
+	players = base_players + growth + spikes
 
-	df = pd.DataFrame({"time": time, "signal": signal})
+	df = pd.DataFrame({
+		"Year": years,
+		"Active_Players_Millions":players
+		})
 
 	print(f"Processing {len(df)} data points...")
-	plt.figure(figsize=(10, 5))
-	plt.plot(df["time"], df["signal"], label="Matrix Signal")
-	plt.title("Matrix Data Simulation")
-	plt.xlabel("Time")
-	plt.ylabel("Signal Strength")
-	plt.legend()
-	plt.tight_layout()
-	plt.savefig("matrix_analysis.png")
 
+	print("Generating visualization...\n")
+
+	plt.figure(figsize=(10, 6))
+	plt.plot(df["Year"], df["Active_Players_Millions"], marker="o")
+	plt.title("GTA V Active Players (2015-2026)")
+	plt.xlabel("Year")
+	plt.ylabel("Active Players (Millions)")
+	plt.grid(True)
+
+	filename = "matrix_analysis"
+	plt.savefig(filename)
+
+	print("Analysis complete!")
+	print("Results saved to: matrix_analysis.png")
 
 main()
