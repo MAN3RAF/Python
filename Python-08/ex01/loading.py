@@ -45,32 +45,14 @@ def main():
 	import numpy as np
 
 	print("\nAnalyzing Matrix data...")
-
-	years = np.arange(2015, 2023)
 	
-	base_players = 8
 
-	growth = np.linspace(0, 12, len(years))
-	spikes = np.random.normal(0, 0.8, len(years))
-	
-	players = base_players + growth + spikes
+	data = {'GTA III': 250, 'Vice City': 300}
 
-	df = pd.DataFrame({
-		"Year": years,
-		"Active_Players_Millions":players
-		})
+	df = pd.DataFrame(list(data.items()), columns=["Game", "Income (Millions USD)"])
+	df.plot.bar(x="Game", y="Income (Millions USD)", legend=False)
 
-	print(f"Processing {len(df)} data points...")
-
-	print("Generating visualization...\n")
-
-	plt.figure(figsize=(10, 6))
-	plt.plot(df["Year"], df["Active_Players_Millions"], marker="o")
-	plt.title("GTA V Active Players (2015-2026)")
-	plt.xlabel("Year")
-	plt.ylabel("Active Players (Millions)")
-	plt.grid(True)
-
+	plt.xticks(rotation=0)
 	filename = "matrix_analysis"
 	plt.savefig(filename)
 
