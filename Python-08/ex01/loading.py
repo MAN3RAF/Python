@@ -1,33 +1,6 @@
 import importlib
 import sys
 
-# try:
-# 	import matplotlib
-# 	import requests
-# 	import pandas
-# 	import numpy
-
-# except ModuleNotFoundError as e:
-# 	print("LOADING STATUS: Loading programs...\n")
-	
-# 	print(f"[ERROR] '{str(e).split("'")[1]}' was not installed..!")
-
-# 	print("\nInstall with:")
-# 	print("  pip install -r requirements")
-# 	print("or\n  poetry install")
-# 	sys.exit(1)
-
-
-# print("\nLOADING STATUS: Loading programs...\n")
-
-# print("Checking dependencies:")
-# print(f"[OK] matplotlib ({matplotlib.__version__}) - Data manipulation ready")
-# print(f"[OK] requests ({requests.__version__}) - Data manipulation ready")
-# print(f"[OK] pandas ({pandas.__version__}) - Data manipulation ready")
-# print(f"[OK] numpy ({numpy.__version__}) - Data manipulation ready")
-
-
-
 def check_module(module_name):
 
 	try:
@@ -37,25 +10,60 @@ def check_module(module_name):
 	except ModuleNotFoundError:
 		return f"[ERROR] {module_name} - Was not installed"
 
+def check_all():
+	modules = ["matplotlib", "requests", "pandas", "numpy"]
 
-modules = ["matplotlib", "requests", "pandas", "numpy"]
+	all_here =[check_module(module) for module in modules]
 
-all_here =[check_module(module) for module in modules]
+	all_in = True
 
-all_in = True
+	print("\nLOADING STATUS: Loading programs...\n")
+	print("Checking dependencies:")
+	for i in all_here:
+		if i.startswith("[ERROR]"):
+			print(i)
+			all_in = False
 
-print("\nLOADING STATUS: Loading programs...\n")
-print("Checking dependencies:")
-for i in all_here:
-	if i.startswith("[ERROR]"):
-		print(i)
-		all_in = False
+	if not all_in:
+		print("\nInstall with:")
+		print("  pip install -r requirements")
+		print("or\n  poetry install")
+		return None
 
-if not all_in:
-	print("\nInstall with:")
-	print("  pip install -r requirements")
-	print("or\n  poetry install")
-	sys.exit(1)
+	for module in modules:
+		print(check_module(module))
+	
+	return "Good"
 
-for module in modules:
-	print(check_module(module))
+def main():
+
+	import matplotlib.pyplot as plt
+	import pandas as pd
+	import numpy as np
+
+
+	if not check_all():
+		sys.exit(1)
+
+	print("\nAnalyzing Matrix data...")
+
+	np.random.seed(1337)
+	size = 1000
+
+	time = np.arange(size)
+	signal = np.sin(time *0.02) + np.random.normal(0, 0.5, size)
+
+	df = pd.DataFrame({"time": time, "signal": signal})
+
+	print(f"Processing {len(df)} data points...")
+	plt.figure(figsize=(10, 5))
+	plt.plot(df["time"], df["signal"], label="Matrix Signal")
+	plt.title("Matrix Data Simulation")
+	plt.xlabel("Time")
+	plt.ylabel("Signal Strength")
+	plt.legend()
+	plt.tight_layout()
+	plt.savefig("matrix_analysis.png")
+
+
+main()
