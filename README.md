@@ -17,3 +17,10 @@ This repository contains my **Python exercises for the 42 curriculum**, organize
    ```bash
    git clone https://github.com/MAN3RAF/Python.git
    cd Python
+   ```
+
+2. Go to a module folder and run an exercise:
+   ```bash
+   cd Python-00
+   python <exercise_file>.py
+   ```
