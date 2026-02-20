@@ -1,0 +1,45 @@
+from abc import ABC, abstractmethod
+from enum import Enum
+from typing import Any
+from Card import Card
+
+
+class CreatureCard(Card):
+	def __init__(self, name: str, cost: int, rarity: str, 
+			  attack: int, health: int):
+
+		super().__init__(name, cost, rarity)
+		self.attack = attack
+		self.health = health
+
+	def play(self, game_state: dict) -> dict:
+		print(
+			f"Playing {game_state['name']} with "
+			f"{game_state['available_mana']} mana available:"
+		)
+		
+		return {
+			"card_played": self.name,
+			"mana_used": self.cost,
+			"effect": "Creature summoned to battlefield",
+		}
+
+	def get_card_info(self) -> dict:
+		return {
+			"name":self.name,
+			"cost":self.cost,
+			"rarity":self.rarity,
+			"type": "Creature",
+			"attack": self.attack,
+			"health": self.health,
+		}
+
+	def attack_target(self, target) -> dict:
+		print(f"{self.name} attacks {target.name}:")
+		return {
+			"attacker": self.name,
+			"target": target.name,
+			"damage_dealt": self.attack,
+			"combat_resolved": True,
+		}
+
