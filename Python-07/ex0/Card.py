@@ -1,17 +1,21 @@
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Any
 
 class Rarity(Enum):
-    COMMON = "common"
-    RARE = "rare"
-    EPIC = "epic"
-    LEGENDARY = "legendary"
+    COMMON = "Common"
+    RARE = "Rare"
+    EPIC = "Epic"
+    LEGENDARY = "Legendary"
+
 
 class Card(ABC):
 	def __init__(self, name: str, cost: int, rarity: str):
 		if rarity not in [r.value for r in Rarity]:
-			raise ValueError("Invalid rarity")
+			raise ValueError("[ERROR] Invalid rarity!")
+
+		if not isinstance(cost, int) or cost < 0:
+			raise ValueError("[ERROR] cost must be a positive integer!")
+ 
 		self.name = name
 		self.cost = cost
 		self.rarity = rarity

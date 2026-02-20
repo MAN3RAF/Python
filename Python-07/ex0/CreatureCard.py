@@ -1,7 +1,5 @@
-from abc import ABC, abstractmethod
-from enum import Enum
 from typing import Any
-from Card import Card
+from .Card import Card
 
 
 class CreatureCard(Card):
@@ -9,6 +7,13 @@ class CreatureCard(Card):
 			  attack: int, health: int):
 
 		super().__init__(name, cost, rarity)
+
+		if not isinstance(attack, int) or attack < 0:
+			raise ValueError("[ERROR] Attack must be a positive integer!")
+
+		if not isinstance(health, int) or health <= 0:
+			raise ValueError("[ERROR] Health must be a positive integer!")
+
 		self.attack = attack
 		self.health = health
 
@@ -34,7 +39,7 @@ class CreatureCard(Card):
 			"health": self.health,
 		}
 
-	def attack_target(self, target) -> dict:
+	def attack_target(self, target: Any) -> dict:
 		print(f"{self.name} attacks {target.name}:")
 		return {
 			"attacker": self.name,
@@ -42,4 +47,3 @@ class CreatureCard(Card):
 			"damage_dealt": self.attack,
 			"combat_resolved": True,
 		}
-

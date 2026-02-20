@@ -1,24 +1,26 @@
-from abc import ABC, abstractmethod
-from enum import Enum
 from typing import Any
-from CreatureCard import CreatureCard
+from .CreatureCard import CreatureCard
 
 
-def main():
+def main() -> None:
 	print("\n=== DataDeck Card Foundation ===\n")
 	
 	print("Testing Abstract Base Class Design:\n")
+	
+	try:
+		card = CreatureCard("Fire Dragon", 5, "Legendary", 7, 5)
+		enemy_card = CreatureCard("Goblin Warrior", 1, "Common", 2, 3)
+	except ValueError as e:
+		print(e)
+		exit(1)
 
-	card = CreatureCard("Fire Dragon", 5, "Legendary", 7, 5)
 	available_mana = 6
-	enemy_card = CreatureCard("Goblin Warrior", 1, "common", 2, 3)
 
 	info = card.get_card_info()
-	
+
 	print(f"CreatureCard Info:\n{info}\n")
 
 	info["available_mana"] =  available_mana
-
 
 	playable = card.is_playable(available_mana)
 	if playable:
