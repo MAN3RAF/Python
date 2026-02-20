@@ -24,3 +24,5 @@ This repository contains my **Python exercises for the 42 curriculum**, organize
    cd Python-00
    python <exercise_file>.py
    ```
+
+> Some exercises may require arguments or interactive input depending on the subject.
