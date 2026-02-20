@@ -23,6 +23,9 @@ class CreatureCard(Card):
 			f"{game_state['available_mana']} mana available:"
 		)
 
+		if 'available_mana' in game_state:
+			game_state['available_mana'] -= self.cost
+
 		return {
 			"card_played": self.name,
 			"mana_used": self.cost,
@@ -42,6 +45,8 @@ class CreatureCard(Card):
 	def attack_target(self, target: Any) -> dict:
 		print(f"{self.name} attacks {target.name}:")
 		target.health -= self.attack
+		if target.health < 0:
+			target.health = 0
 		return {
 			"attacker": self.name,
 			"target": target.name,

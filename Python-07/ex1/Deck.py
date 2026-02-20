@@ -5,11 +5,19 @@ from SpellCard import SpellCard
 
 
 class Deck():
+
+	def __init__(self):
+		self.deck: list = []
+
 	def add_card(self, card: Card) -> None:
-		pass
+		self.deck.append(card)
 
 	def remove_card(self, card_name: str) -> bool:
-		pass
+		for card in self.deck:
+			if card.name == card_name:
+				self.deck.remove(card_name)
+				return True
+		return False
 
 	def shuffle(self) -> None:
 		pass
