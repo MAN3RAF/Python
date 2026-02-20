@@ -22,7 +22,7 @@ class CreatureCard(Card):
 			f"Playing {game_state['name']} with "
 			f"{game_state['available_mana']} mana available:"
 		)
-		
+
 		return {
 			"card_played": self.name,
 			"mana_used": self.cost,
@@ -41,6 +41,7 @@ class CreatureCard(Card):
 
 	def attack_target(self, target: Any) -> dict:
 		print(f"{self.name} attacks {target.name}:")
+		target.health -= self.attack
 		return {
 			"attacker": self.name,
 			"target": target.name,
