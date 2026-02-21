@@ -24,6 +24,10 @@ def main() -> None:
 
 	playable = card.is_playable(available_mana)
 	if playable:
+		print(
+			f"Playing {card.name} with "
+			f"{available_mana} mana available:"
+		)
 		play_res = card.play(info)
 		print(f"Playable: {playable}")
 		print(f"Play result: {play_res}\n")

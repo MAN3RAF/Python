@@ -57,7 +57,7 @@ class Deck():
 			"creatures": creatures,
 			"spells": spells,
 			"artifacts": artifacts,
-			"avg_cost": avg,
+			"avg_cost": f"{avg:.1f}",
 		}
 			
 

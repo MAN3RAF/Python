@@ -18,11 +18,6 @@ class CreatureCard(Card):
 		self.health = health
 
 	def play(self, game_state: dict) -> dict:
-		print(
-			f"Playing {game_state['name']} with "
-			f"{game_state['available_mana']} mana available:"
-		)
-
 		if 'available_mana' in game_state:
 			game_state['available_mana'] -= self.cost
 

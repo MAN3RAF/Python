@@ -2,6 +2,7 @@ from ex0.Card import Card
 from enum import Enum
 # from ex0.CreatureCard import CreatureCard
 
+
 class EffectType(Enum):
 	DAMAGE = "damage"
 	HEAL = "heal"
