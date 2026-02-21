@@ -20,8 +20,6 @@ class SpellCard(Card):
 		self.effect_type = effect_type
 
 	def play(self, game_state: dict) -> dict:
-		print(f"Drew: {self.name} (Spell)")
-		
 		if 'available_mana' in game_state:
 			if game_state['available_mana'] >= self.cost:
 				if self.effect_type == "damage":
@@ -32,7 +30,10 @@ class SpellCard(Card):
 					self.effect = "damage buff for 3 turns"
 				else:
 					self.effect = "damage debuff for 3 turns"
-				game_state['available_mana'] -= self.cost
+			else:
+				raise ValueError("[ERROR] Not enough mana!")
+			
+			game_state['available_mana'] -= self.cost
 		return {
 			'card_played': self.name,
 			'mana_used': self.cost,

@@ -13,11 +13,13 @@ class ArtifactCard(Card):
 
 	def play(self, game_state: dict) -> dict:
 		
-		print(f"Drew: {self.name} (Artifact)")
+		# print(f"Drew: {self.name} (Artifact)")
 
 		if 'available_mana' in game_state:
-			game_state['available_mana'] -= self.cost
-
+			if game_state['available_mana'] >= self.cost:
+				game_state['available_mana'] -= self.cost
+			else:
+				raise ValueError("[ERROR] Not enough mana")
 		return {
 			'card_played': self.name,
 			'mana_used': self.cost,

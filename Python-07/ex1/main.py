@@ -1,5 +1,3 @@
-from random import Random
-from enum import Enum
 from ex1.Deck import Deck
 from ex1.SpellCard import SpellCard
 from ex1.ArtifactCard import ArtifactCard
@@ -29,20 +27,25 @@ def main():
 
 	print("\nDrawing and playing cards:\n")
 
-	card = deck.draw_card()
+	while deck.deck:
+		card = deck.draw_card()
 
-	if isinstance(card, SpellCard):
-		print("Drew: Lightning Bolt (Spell)")
-	elif isinstance(card, ArtifactCard):
-		print("Drew: Mana Crystal (Artifact)")
-	elif isinstance(card, CreatureCard):
-		print("Drew: Fire Dragon (Creature)")
+		if isinstance(card, SpellCard):
+			print("Drew: Lightning Bolt (Spell)")
+		elif isinstance(card, ArtifactCard):
+			print("Drew: Mana Crystal (Artifact)")
+		elif isinstance(card, CreatureCard):
+			print("Drew: Fire Dragon (Creature)")
 
-	game_status = card.get_card_info()
+		game_status = card.get_card_info()
+		game_status['available_mana'] = player_mana
 
-	game_status['available_mana'] = player_mana
+		play_result = card.play(game_status)
+		print(f"Play result: {play_result}\n")
+		
+		player_mana = game_status['available_mana']
 
-	print(f"Play result: {card.play(game_status)}")
+	print("Polymorphism in action: Same interface, different card behaviors!")
 
 if __name__ == "__main__":
 	main()
