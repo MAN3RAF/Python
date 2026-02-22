@@ -3,12 +3,16 @@ from ex2.EliteCard import EliteCard
 
 # Simple dummy target class
 class DummyTarget:
-    def __init__(self, name, health):
+    """Simple dummy target for testing."""
+
+    def __init__(self, name: str, health: int) -> None:
+        """Initialize a dummy target with name and health."""
         self.name = name
         self.health = health
 
 
-def main():
+def main() -> None:
+    """Main function to test elite card ability system."""
     print("\n=== DataDeck Ability System ===\n")
 
     print("EliteCard capabilities:")

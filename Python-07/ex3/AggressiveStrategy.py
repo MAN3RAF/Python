@@ -1,48 +1,51 @@
-from ex0.CreatureCard import CreatureCard, Card
 from ex3.GameStrategy import GameStrategy
 
 
 class AggressiveStrategy(GameStrategy):
-	def execute_turn(self, hand: list, battlefield: list) -> dict:
-		mana = 30  # Available mana for the turn
-		damage = 0
-		spent = 0
-		played_cards = []
-		targets = ['Enemy Player']
+    """Aggressive game strategy focusing on damage."""
 
-		# Sort hand by cost (low to high) for aggressive play
-		sorted_hand = sorted(hand, key=lambda card: card.cost)
+    def execute_turn(self, hand: list, battlefield: list) -> dict:
+        """Execute an aggressive turn."""
+        mana = 30  # Available mana for the turn
+        damage = 0
+        spent = 0
+        played_cards = []
+        targets = ['Enemy Player']
 
-		for card in sorted_hand:
-			if card.cost <= mana:
-				mana -= card.cost
-				spent += card.cost
+        # Sort hand by cost (low to high) for aggressive play
+        sorted_hand = sorted(hand, key=lambda card: card.cost)
 
-				# Calculate damage based on card type
-				if hasattr(card, 'attack'):
-					damage += card.attack
-				else:
-					damage += 5  # Default spell/artifact damage
-				
-				played_cards.append(card.name)
+        for card in sorted_hand:
+            if card.cost <= mana:
+                mana -= card.cost
+                spent += card.cost
 
-		return {
-			'cards_played': played_cards,
-			'mana_used': spent,
-			'targets_attacked': targets,
-			'damage_dealt': damage
-		}
+                # Calculate damage based on card type
+                if hasattr(card, 'attack'):
+                    damage += card.attack
+                else:
+                    damage += 5  # Default spell/artifact damage
 
+                played_cards.append(card.name)
 
-	def get_strategy_name(self) -> str:
-		return "AggressiveStrategy"
+        return {
+            'cards_played': played_cards,
+            'mana_used': spent,
+            'targets_attacked': targets,
+            'damage_dealt': damage
+        }
 
-	def prioritize_targets(self, available_targets: list) -> list:
-		targets = []
+    def get_strategy_name(self) -> str:
+        """Get the strategy name."""
+        return "AggressiveStrategy"
 
-		for target in available_targets:
-			if target == 'player':
-				targets.insert(0, target)
-			else:
-				targets.append(target)
-		return targets
+    def prioritize_targets(self, available_targets: list) -> list:
+        """Prioritize targets with player first."""
+        targets = []
+
+        for target in available_targets:
+            if target == 'player':
+                targets.insert(0, target)
+            else:
+                targets.append(target)
+        return targets

@@ -5,167 +5,159 @@ from ex1.SpellCard import SpellCard
 from ex1.ArtifactCard import ArtifactCard
 import random
 
+
 class FantasyCardFactory(CardFactory):
+    """Fantasy-themed card factory."""
 
-	def create_creature(self, name_or_power: str | int | None = None) -> Card:
+    def create_creature(self, name_or_power: str | int | None = None) -> Card:
+        """Create a creature card."""
 
-		rarities = ["Common", "Rare"]
+        cards = {
+            'Blue eyes White Dragon': {
+                "cost": 8,
+                "damage": 9,
+                "rarity": "Epic",
+                "health": 8
+            },
+            'Goblin Warrior': {
+                "cost": 2,
+                "damage": 3,
+                "rarity": "Common",
+                "health": 3
+            },
+            'Dark Magician': {
+                "cost": 7,
+                "damage": 8,
+                "rarity": "Epic",
+                "health": 7
+            },
+            'Exodia The Forbidden One': {
+                "cost": 10,
+                "damage": 10,
+                "rarity": "Legendary",
+                "health": 10
+            },
+            'Spirital Beast': {
+                "cost": 5,
+                "damage": 6,
+                "rarity": "Rare",
+                "health": 5
+            }
+        }
 
-		creatures = ["Elf Archer", "Orc Warrior",
-                     "Mountain Troll"]
+        if isinstance(name_or_power, str):
+            creature = random.choice(list(cards.items()))
+        elif isinstance(name_or_power, int):
+            creature = random.choice(list(cards.items()))
+        else:
+            creature = random.choice(list(cards.items()))
 
-		cards = {
-			'Blue eyes White Dragon': {
-				"cost": 8,
-				"damage": 9,
-				"rarity": "Epic",
-				"health": 8
-			},
-			'Goblin Warrior': {
-				"cost": 2,
-				"damage": 3,
-				"rarity": "Common",
-				"health": 3
-			},
-			'Dark Magician': {
-				"cost": 7,
-				"damage": 8,
-				"rarity": "Epic",
-				"health": 7
-			},
-			'Exodia The Forbidden One': {
-				"cost": 10,
-				"damage": 10,
-				"rarity": "Legendary",
-				"health": 10
-			},
-			'Spirital Beast': {
-				"cost": 5,
-				"damage": 6,
-				"rarity": "Rare",
-				"health": 5
-			}
-		}
+        card = CreatureCard(
+            creature[0],
+            creature[1]['cost'],
+            creature[1]['rarity'],
+            creature[1]['damage'],
+            creature[1]['health']
+        )
+        return card
 
-		if isinstance(name_or_power, str):
-			name = name_or_power
-			cost = random.randint(1, 6)
-			rarity = random.choice(rarities)
-			attack = random.randint(1, 6)
-			health = random.randint(1, 6)
-		elif isinstance(name_or_power, int):
-			name = random.choice(creatures)
-			cost = name_or_power
-			rarity = random.choice(rarities)
-			attack = random.randint(1, 6)
-			health = random.randint(1, 6)
-		else:
-			creature = random.choice(list(cards.items()))
+    def create_spell(self, name_or_power: str | int | None = None) -> Card:
+        """Create a spell card."""
+        rarities = ["Common", "Rare", "Epic", "Legendary"]
 
-		card = CreatureCard(creature[0], creature[1]['cost'],
-					  creature[1]['rarity'], creature[1]['damage'],
-					  creature[1]['health'])
-		return card
+        spells = [
+            ("FireBall", "damage"),
+            ("Healing Wave", "heal"),
+            ("Ice Blast", "damage"),
+            ("Lightning Bolt", "damage")
+        ]
 
-	def create_spell(self, name_or_power: str | int | None = None) -> Card:
+        if isinstance(name_or_power, str):
+            name = name_or_power
+            cost = random.randint(1, 6)
+            rarity = random.choice(rarities)
+            if "Heal" in name_or_power:
+                effect_type = 'heal'
+            else:
+                effect_type = 'damage'
 
-		rarities = ["Common", "Rare", "Epic", "Legendary"]
+        elif isinstance(name_or_power, int):
+            name, effect_type = random.choice(spells)
+            cost = name_or_power
+            rarity = random.choice(rarities)
 
-		spells = [
-			("FireBall", "damage"),
-			("Healing Wave", "heal"),
-			("Ice Blast", "damage"),
-			("Lightning Bolt", "damage")
-		]
-		
-		if isinstance(name_or_power, str):
-			name = name_or_power
-			cost = random.randint(1, 6)
-			rarity = random.choice(rarities)
-			if "Heal" in name_or_power:
-				effect_type = 'heal'
-			else:
-				effect_type = 'damage'
+        else:
+            name, effect_type = random.choice(spells)
+            cost = random.randint(1, 6)
+            rarity = random.choice(rarities)
 
-		elif isinstance(name_or_power, int):
-			name, effect_type = random.choice(spells)
-			cost = name_or_power
-			rarity = random.choice(rarities)
+        card = SpellCard(name, cost, rarity, effect_type)
 
-		else:
-			name, effect_type = random.choice(spells)
-			cost = random.randint(1, 6)
-			rarity = random.choice(rarities)
+        return card
 
-		card = SpellCard(name, cost, rarity, effect_type)
+    def create_artifact(self, name_or_power: str | int | None = None) -> Card:
+        """Create an artifact card."""
+        rarities = ["Common", "Rare", "Epic", "Legendary"]
 
-		return card
+        artifacts = [
+            ('Black Pendant', "Mana Boost"),
+            ('Axe Of Despair', "Attack Boost"),
+            ("Nibelung's Ring", "Pasive Creature")
+        ]
 
-	def create_artifact(self, name_or_power: str | int | None = None) -> Card:
+        if isinstance(name_or_power, str):
+            name = name_or_power
+            cost = random.randint(1, 6)
+            effect = "generic"
 
-		rarities = ["Common", "Rare", "Epic", "Legendary"]
+        elif isinstance(name_or_power, int):
+            name, effect = random.choice(artifacts)
+            cost = name_or_power
 
-		artifacts = [
-			('Black Pendant' ,"Mana Boost"), 
-			('Axe Of Despair', "Attack Boost"),
-			("Nibelung's Ring", "Pasive Creature")
-		]
+        else:
+            name, effect = random.choice(artifacts)
+            cost = random.randint(1, 4)
 
-		if isinstance(name_or_power, str):
-			name = name_or_power
-			cost = random.randint(1, 6)
-			effect = "generic"
+        durability = random.randint(1, 5)
 
-		elif isinstance(name_or_power, int):
-			name, effect = random.choice(artifacts)
-			cost = name_or_power
+        rarity = random.choice(rarities)
 
-		else:
-			name, effect = random.choice(artifacts)
-			cost = random.randint(1, 4)
+        card = ArtifactCard(name, cost, rarity, durability, effect)
 
-		durability = random.randint(1, 5)
+        return card
 
-		rarity = random.choice(rarities)
+    def create_themed_deck(self, size: int) -> dict:
+        """Create a themed deck of specified size."""
+        deck = []
 
-		card = ArtifactCard(name, cost, rarity, durability, effect)
+        for _ in range(size):
+            number = random.random()
+            if number < 0.5:
+                deck.append(self.create_creature())
+            elif number < 0.8:
+                deck.append(self.create_spell())
+            else:
+                deck.append(self.create_artifact())
 
-		return card
-
-	def create_themed_deck(self, size: int) -> dict:
-
-		deck = []
-
-		for _ in range(size):
-			number = random.random()
-			if number < 0.5:
-				deck.append(self.create_creature())
-			elif number < 0.8:
-				deck.append(self.create_spell())
-			else:
-				deck.append(self.create_artifact())
-
-		return {
+        return {
             "deck_size": size,
             "cards": deck
         }
 
-	def get_supported_types(self) -> dict:
-		return {
-            'creatures': ['dragon', 'goblin', 'dark_magician',
-                          'exodia', 'spirital_beast', 'elf_archer',
-						  'orc_warrior', 'mountain troll'],
-
-            'spells': ['fireball', 'healing_wave',
-                       'ice_blast', 'lightning_bolt'],
-
-            'artifacts': ['black_pendant', 'axe_of_despair',
-                          "nibelung's_ring"]
-		}
-
-
-# factory = FantasyCardFactory()
-
-# card = factory.create_creature()
-
-# print(f"{card.name}")
+    def get_supported_types(self) -> dict:
+        """Get supported card types."""
+        return {
+            'creatures': [
+                'dragon', 'goblin', 'dark_magician',
+                'exodia', 'spirital_beast', 'elf_archer',
+                'orc_warrior', 'mountain troll'
+            ],
+            'spells': [
+                'fireball', 'healing_wave',
+                'ice_blast', 'lightning_bolt'
+            ],
+            'artifacts': [
+                'black_pendant', 'axe_of_despair',
+                "nibelung's_ring"
+            ]
+        }
