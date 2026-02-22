@@ -65,7 +65,6 @@ class FantasyCardFactory(CardFactory):
 		card = CreatureCard(creature[0], creature[1]['cost'],
 					  creature[1]['rarity'], creature[1]['damage'],
 					  creature[1]['health'])
-
 		return card
 
 	def create_spell(self, name_or_power: str | int | None = None) -> Card:
@@ -140,13 +139,16 @@ class FantasyCardFactory(CardFactory):
 		for _ in range(size):
 			number = random.random()
 			if number < 0.5:
-				deck.append(self.create_creature)
+				deck.append(self.create_creature())
 			elif number < 0.8:
-				deck.append(self.create_spell)
+				deck.append(self.create_spell())
 			else:
-				deck.append(self.create_artifact)
+				deck.append(self.create_artifact())
 
-		return deck
+		return {
+            "deck_size": size,
+            "cards": deck
+        }
 
 	def get_supported_types(self) -> dict:
 		return {
@@ -166,4 +168,4 @@ class FantasyCardFactory(CardFactory):
 
 # card = factory.create_creature()
 
-print(f"{random.random():.1f}")
+# print(f"{card.name}")

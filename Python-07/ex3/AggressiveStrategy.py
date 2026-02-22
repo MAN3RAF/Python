@@ -4,7 +4,7 @@ from ex3.GameStrategy import GameStrategy
 
 class AggressiveStrategy(GameStrategy):
 	def execute_turn(self, hand: list, battlefield: list) -> dict:
-		mana = 10
+		mana = 30
 		damage = 0
 		spent = 0
 		played_cards = []
@@ -22,7 +22,8 @@ class AggressiveStrategy(GameStrategy):
 			"damage_dealt": damage,
 			"mana_spent": spent,
 			"cards_played": len(played_cards),
-			"cards": played_cards
+			"cards": played_cards,
+			"hand": [h.name for h in hand],
 		}
 
 
