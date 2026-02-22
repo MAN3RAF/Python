@@ -7,46 +7,39 @@ from ex1.SpellCard import SpellCard
 
 def main():
 
-	   print("\n=== DataDeck Game Engine ===")
-	   print("Configuring Fantasy Card Game...")
+	print("\n=== DataDeck Game Engine ===\n")
 
-	   factory = FantasyCardFactory()
-	   strategy = AggressiveStrategy()
+	print("Configuring Fantasy Card Game...")
 
-	   print(f"Factory: {factory.__class__.__name__}")
-	   print(f"Strategy: {strategy.get_strategy_name()}")
-	   print(f"Available types: {factory.get_supported_types()}")
+	factory = FantasyCardFactory()
+	strategy = AggressiveStrategy()
+	engine = GameEngine()
 
-	   print("Simulating aggressive turn...")
+	# Configure the engine with factory and strategy
+	engine.configure_engine(factory, strategy)
 
-	   # Create hand with specific cards
-	   fire_dragon = CreatureCard("Fire Dragon", 5, "Epic", 6, 7)
-	   goblin_warrior = CreatureCard("Goblin Warrior", 2, "Common", 3, 3)
-	   lightning_bolt = SpellCard("Lightning Bolt", 3, "Rare", "damage")
-	   hand = [fire_dragon, goblin_warrior, lightning_bolt]
+	print(f"Factory: {factory.__class__.__name__}")
+	print(f"Strategy: {strategy.get_strategy_name()}")
+	print(f"Available types: {factory.get_supported_types()}")
 
-	   print(f"Hand: [{fire_dragon.name} ({fire_dragon.cost}), {goblin_warrior.name} ({goblin_warrior.cost}), {lightning_bolt.name} ({lightning_bolt.cost})]")
+	print("\nSimulating aggressive turn...")
 
-	   print("Turn execution:")
-	   actions = {
-		   'cards_played': [goblin_warrior.name, lightning_bolt.name],
-		   'mana_used': goblin_warrior.cost + lightning_bolt.cost,
-		   'targets_attacked': ['Enemy Player'],
-		   'damage_dealt': goblin_warrior.attack + 5  # Lightning Bolt assumed to deal 5
-	   }
-	   print(f"Strategy: {strategy.get_strategy_name()}")
-	   print(f"Actions: {actions}")
+	# Simulate turn using engine (which uses factory to create cards)
+	actions = engine.simulate_turn()
+	
+	# Display the hand
+	hand = actions.pop('hand')  # Remove hand from actions dict
+	hand_display = ', '.join([f"{card.name} ({card.cost})" for card in hand])
+	print(f"Hand: [{hand_display}]")
 
-	   game_report = {
-		   'turns_simulated': 1,
-		   'strategy_used': strategy.get_strategy_name(),
-		   'total_damage': actions['damage_dealt'],
-		   'cards_created': 3
-	   }
-	   print("Game Report:")
-	   print(game_report)
+	print("\nTurn execution:")
+	print(f"Strategy: {strategy.get_strategy_name()}")
+	print(f"Actions: {actions}")
 
-	   print("Abstract Factory + Strategy Pattern: Maximum flexibility achieved!")
+	print("\nGame Report:")
+	print(engine.get_engine_status())
+
+	print("\nAbstract Factory + Strategy Pattern: Maximum flexibility achieved!")
 
 if __name__ == "__main__":
 	main()

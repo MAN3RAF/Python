@@ -22,6 +22,7 @@ class GameEngine:
         battlefield = deck['cards'][3:5]
 
         result = self.strategy.execute_turn(hand, battlefield)
+        result['hand'] = hand
 
         self.turns_simulated += 1
         self.total_damage += result['damage_dealt']

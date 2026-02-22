@@ -4,26 +4,33 @@ from ex3.GameStrategy import GameStrategy
 
 class AggressiveStrategy(GameStrategy):
 	def execute_turn(self, hand: list, battlefield: list) -> dict:
-		mana = 30
+		mana = 30  # Available mana for the turn
 		damage = 0
 		spent = 0
 		played_cards = []
+		targets = ['Enemy Player']
 
-		for card in hand:
-			if card.cost > mana:
-				raise "[ERROR] not enough mana"
+		# Sort hand by cost (low to high) for aggressive play
+		sorted_hand = sorted(hand, key=lambda card: card.cost)
 
-			mana -= card.cost
-			spent += card.cost
-			damage += 5
-			played_cards.append(card.name)
+		for card in sorted_hand:
+			if card.cost <= mana:
+				mana -= card.cost
+				spent += card.cost
+
+				# Calculate damage based on card type
+				if hasattr(card, 'attack'):
+					damage += card.attack
+				else:
+					damage += 5  # Default spell/artifact damage
+				
+				played_cards.append(card.name)
 
 		return {
-			"damage_dealt": damage,
-			"mana_spent": spent,
-			"cards_played": len(played_cards),
-			"cards": played_cards,
-			"hand": [h.name for h in hand],
+			'cards_played': played_cards,
+			'mana_used': spent,
+			'targets_attacked': targets,
+			'damage_dealt': damage
 		}
 
 
