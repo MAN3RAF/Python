@@ -11,7 +11,7 @@ class Validate(BaseModel):
 	power_level: float = Field(ge=0, le=100)
 	oxygen_level: float = Field(ge=0, le=100)
 	last_maintenance: datetime
-	is_operational: bool = True
+	is_operational: bool = False
 	notes: Optional[str] = Field(default=None, max_length=200)
 
 
