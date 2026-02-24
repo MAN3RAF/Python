@@ -22,7 +22,7 @@ def main() -> None:
 	print("Valid station created:")
 	try:
 		v = Validate(station_id="ISS001", name="International Space Station",
-			   crew_size=6, power_level=85.5, oxygen_level= 92.3,
+			   crew_size=6, power_level="85.5", oxygen_level= 92.3,
 			   last_maintenance= "2026-02-24T14:30:00", is_operational=True
 			)
 		print(
