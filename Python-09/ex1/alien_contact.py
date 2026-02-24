@@ -42,6 +42,7 @@ def main():
 	
 	print("Alien Contact Log Validation")
 	print("======================================")
+	print("Valid contact report:")
 
 
 if __name__ == "__main__":
