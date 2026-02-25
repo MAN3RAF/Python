@@ -12,6 +12,7 @@ class ContactTypes(Enum):
 	physical = "physical"
 	telepathic = "telepathic"
 
+
 class Validator(BaseModel):
 	
 	contact_id: str = Field(min_length=5, max_length=15)
@@ -44,17 +45,46 @@ def main():
 	print("Alien Contact Log Validation")
 	print("======================================")
 	print("Valid contact report:")
-	v = Validator(contact_id="AC_2024_001", timestamp="2026-02-24T14:30:00", location=" Area 51, Nevada", contact_type="radio",  signal_strength=8.5, duration_minutes="45", witness_count=5, message_received="Greetings from Zeta Reticuli", is_verified=True)
-	print(
-		f"ID: {v.contact_id}\n"
-		f"Type: {v.contact_type}\n"
-		f"Location: {v.location}\n"
-		f"Signal: {v.signal_strength}/10\n"
-		f"Witnesses: {v.witness_count}\n"
-		f"Message: '{v.message_received}'\n"
-	)
+	try:
+		v = Validator(
+			contact_id="AC_2024_001",
+			timestamp="2026-02-24T14:30:00",
+			location=" Area 51, Nevada",
+			contact_type="radio",
+			signal_strength=8.5,
+			duration_minutes="45",
+			witness_count=5,
+			message_received="Greetings from Zeta Reticuli",
+			is_verified=True
+		)
+		print(
+			f"ID: {v.contact_id}\n"
+			f"Type: {v.contact_type.value}\n"
+			f"Location: {v.location}\n"
+			f"Signal: {v.signal_strength}/10\n"
+			f"Witnesses: {v.witness_count}\n"
+			f"Message: '{v.message_received}'\n"
+		)
+	except ValidationError as e:
+		for err in e.errors(): #list of detailes of the errors that happened
+			print(err['msg'])
 	print("======================================")
 	print("Expected validation error:")
+	try:
+		v = Validator(
+			contact_id="AC_2024_001",
+			timestamp="2026-02-24T14:30:00",
+			location=" Area 51, Nevada",
+			contact_type="telepathic",
+			signal_strength=8.5,
+			duration_minutes="45",
+			witness_count=1,
+			message_received="Greetings from Zeta Reticuli",
+			is_verified=True
+		)
+	except ValidationError as e:
+		for err in e.errors(): #list of detailes of the errors that happened
+			print(err['msg'])
 
 if __name__ == "__main__":
 	main()

@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Optional
 
 
-class Validate(BaseModel):
+class Validator(BaseModel):
 
 	station_id: str = Field(min_length=3, max_length=10)
 	name: str = Field(min_length=1, max_length=50)
@@ -21,7 +21,7 @@ def main() -> None:
 	print("========================================")
 	print("Valid station created:")
 	try:
-		v = Validate(station_id="ISS001", name="International Space Station",
+		v = Validator(station_id="ISS001", name="International Space Station",
 			   crew_size=6, power_level="85.5", oxygen_level= 92.3,
 			   last_maintenance= "2026-02-24T14:30:00", is_operational=True
 			)
@@ -41,7 +41,7 @@ def main() -> None:
 	print("Expected validation error:")
 	# causing error in crew_size:
 	try:
-		v = Validate(station_id="ISS001", name="International Space Station",
+		v = Validator(station_id="ISS001", name="International Space Station",
 			   crew_size=21, power_level=85.5, oxygen_level= 92.3,
 			   last_maintenance= "2026-02-24T14:30:00", is_operational=True
 			)
