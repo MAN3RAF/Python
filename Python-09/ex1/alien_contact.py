@@ -28,15 +28,15 @@ class Validator(BaseModel):
 	@model_validator(mode='after')
 	def validate(self):
 		if self.contact_type.value not in [ct.value for ct in ContactTypes]:
-			print("Contact Type not allowed")
+			raise ValueError("Contact Type not allowed")
 		if not self.contact_id.startswith("AC"):
-			print("Contact ID must start with 'AC' (Alien Contact)")
+			raise ValueError("Contact ID must start with 'AC' (Alien Contact)")
 		if (self.contact_type.value == "physical") and not self.is_verified:
-			print(" Physical contact reports must be verified")
+			raise ValueError(" Physical contact reports must be verified")
 		if (self.contact_type.value == "telepathic") and not (self.witness_count >= 3):
-			print("Telepathic contact requires at least 3 witnesses")
+			raise ValueError("Telepathic contact requires at least 3 witnesses")
 		if self.signal_strength > 7 and not self.message_received:
-			print("Strong signals (> 7.0) should include received messages")
+			raise ValueError("Strong signals (> 7.0) should include received messages")
 		return self
 
 
@@ -67,7 +67,12 @@ def main():
 		)
 	except ValidationError as e:
 		for err in e.errors(): #list of detailes of the errors that happened
-			print(err['msg'])
+			msg = err['msg']
+			# Strip "Value error, " prefix if present
+			if msg.startswith("Value error, "):
+				msg = msg[13:]  # Remove "Value error, " (13 characters)
+			print(msg)
+
 	print("======================================")
 	print("Expected validation error:")
 	try:
@@ -85,6 +90,8 @@ def main():
 	except ValidationError as e:
 		for err in e.errors(): #list of detailes of the errors that happened
 			print(err['msg'])
+	except ValueError as e:
+		print(e)
 
 if __name__ == "__main__":
 	main()
