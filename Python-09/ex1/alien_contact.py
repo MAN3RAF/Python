@@ -21,29 +21,40 @@ class Validator(BaseModel):
 	signal_strength: float = Field(ge=0, le=10)
 	duration_minutes: int = Field(ge=1, le=1440) #(max 24 hours)
 	witness_count: int = Field(ge=1, le=100)
-	message_received: Optional[str] = Field(max_length=500)
+	message_received: Optional[str] = Field(default=None, max_length=500)
 	is_verified: bool = False
 
 	@model_validator(mode='after')
 	def validate(self):
-		allowed = {contact_type.value for contact_type in ContactTypes}
-		if self.contact_type not in allowed:
-			print("ERROR!")
+		if self.contact_type.value not in [ct.value for ct in ContactTypes]:
+			print("Contact Type not allowed")
 		if not self.contact_id.startswith("AC"):
-			print("ERROR!")
-		if (self.contact_type == "physical") and not self.is_verified:
-			print("ERROR!")
-		if (self.contact_type == "telepathic") and not (self.witness_count >= 3):
-			print("ERROR!")
+			print("Contact ID must start with 'AC' (Alien Contact)")
+		if (self.contact_type.value == "physical") and not self.is_verified:
+			print(" Physical contact reports must be verified")
+		if (self.contact_type.value == "telepathic") and not (self.witness_count >= 3):
+			print("Telepathic contact requires at least 3 witnesses")
 		if self.signal_strength > 7 and not self.message_received:
-			print("ERROR!")
+			print("Strong signals (> 7.0) should include received messages")
+		return self
+
 
 def main():
 	
 	print("Alien Contact Log Validation")
 	print("======================================")
 	print("Valid contact report:")
-
+	v = Validator(contact_id="AC_2024_001", timestamp="2026-02-24T14:30:00", location=" Area 51, Nevada", contact_type="radio",  signal_strength=8.5, duration_minutes="45", witness_count=5, message_received="Greetings from Zeta Reticuli", is_verified=True)
+	print(
+		f"ID: {v.contact_id}\n"
+		f"Type: {v.contact_type}\n"
+		f"Location: {v.location}\n"
+		f"Signal: {v.signal_strength}/10\n"
+		f"Witnesses: {v.witness_count}\n"
+		f"Message: '{v.message_received}'\n"
+	)
+	print("======================================")
+	print("Expected validation error:")
 
 if __name__ == "__main__":
 	main()
