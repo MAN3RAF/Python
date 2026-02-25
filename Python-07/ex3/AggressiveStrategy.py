@@ -24,10 +24,11 @@ class AggressiveStrategy(GameStrategy):
                 if hasattr(card, 'attack'):
                     damage += card.attack
                 else:
-                    damage += 5  # Default spell/artifact damage
+                    damage += card.cost
 
                 played_cards.append(card.name)
-
+            if mana <= 0:
+                break
         return {
             'cards_played': played_cards,
             'mana_used': spent,

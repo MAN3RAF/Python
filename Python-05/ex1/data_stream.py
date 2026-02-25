@@ -99,6 +99,7 @@ class StreamProcessor:
         self.streams.append(stream)
 
     def process_streams(self, data_batches: List[List[Any]]) -> None:
+        stream_types: List[str] = ["Sensor", "Transaction", "Event"]
         for i in range(len(self.streams)):
             current_stream: DataStream = self.streams[i]
 
@@ -107,8 +108,17 @@ class StreamProcessor:
 
             current_data: List[Any] = data_batches[i]
             try:
-                result: str = current_stream.process_batch(current_data)
-                print(f"- {result}")
+                stream_name: str = (
+                    stream_types[i] if i < len(stream_types) else "Unknown"
+                )
+                if stream_name == 'Sensor':
+                    unit = 'readings'
+                elif stream_name == 'Transaction':
+                    unit = 'operations'
+                else:
+                    unit = 'events'
+                print(f"- {stream_name} data: {len(current_data)} "
+                      f"{unit} processed")
             except Exception as e:
                 print(f"Stream {current_stream.stream_id} failed: {e}")
 
@@ -121,23 +131,24 @@ def main() -> None:
     stats: Dict[str, Union[str, int, float]] = sensor.get_stats()
     print(f"Stream ID: {stats['id']}, Type: {stats['type']}")
     sensor_data: List[str] = ["temp:22.5", "humidity:65", "pressure:1013"]
-    print(f"Processing sensor batch: {sensor_data}")
+    print("Processing sensor batch: "
+          "[temp:22.5, humidity:65, pressure:1013]")
     print(sensor.process_batch(sensor_data))
 
     print("\nInitializing Transaction Stream...")
-    trans: TransactionStream = TransactionStream("TRANS_00")
+    trans: TransactionStream = TransactionStream("TRANS_001")
     stats = trans.get_stats()
     print(f"Stream ID: {stats['id']}, Type: {stats['type']}")
     trans_data: List[str] = ["buy:100", "sell:150", "buy:75"]
-    print(f"Processing sensor batch: {trans_data}")
+    print("Processing transaction batch: [buy:100, sell:150, buy:75]")
     print(trans.process_batch(trans_data))
 
     print("\nInitializing Event Stream...")
-    event: EventStream = EventStream("EVENT_00")
+    event: EventStream = EventStream("EVENT_001")
     stats = event.get_stats()
     print(f"Stream ID: {stats['id']}, Type: {stats['type']}")
     event_data: List[str] = ["login", "error", "logout"]
-    print(f"Processing sensor batch: {event_data}")
+    print("Processing event batch: [login, error, logout]")
     print(event.process_batch(event_data))
 
     print("\n=== Polymorphic Stream Processing ===")
@@ -148,16 +159,22 @@ def main() -> None:
     processor.add_stream(trans)
     processor.add_stream(event)
 
-    data_bratches: List[List[str]] = [sensor_data, trans_data, event_data]
+    new_sensor_data: List[str] = ["temp:20.0", "temp:21.5"]
+    new_trans_data: List[str] = ["buy:50", "sell:30", "sell:20", "sell:10"]
+    new_event_data: List[str] = ["start", "warning", "stop"]
+
+    data_bratches: List[List[str]] = [
+        new_sensor_data, new_trans_data, new_event_data
+    ]
 
     print("\nBatch 1 Results:")
     processor.process_streams(data_bratches)
 
     print("\nStream filtering active: High-priority data only")
 
-    filtered_sensor = sensor.filter_data(sensor_data, "temp")
+    filtered_sensor = sensor.filter_data(new_sensor_data, "temp")
 
-    filtered_trans = trans.filter_data(trans_data, "buy")
+    filtered_trans = trans.filter_data(new_trans_data, "buy")
 
     print(
         f"Filtered results: {len(filtered_sensor)} critical sensor alerts, "

@@ -13,6 +13,19 @@ class EliteCard(Card, Combatable, Magical):
         """Initialize an elite card with combat and magic stats."""
         super().__init__(name, cost, rarity)
 
+        if not isinstance(damage, int) or damage < 0:
+            raise ValueError("[ERROR] Damage must be a positive integer!")
+
+        # Validate health
+        if not isinstance(health, int) or health <= 0:
+            raise ValueError("[ERROR] Health must be a positive integer!")
+
+        if not isinstance(defen, int) or defen < 0:
+            raise ValueError("[ERROR] Defend must be a positive integer!")
+
+        if not isinstance(mana, int) or mana < 0:
+            raise ValueError("[ERROR] Mana must be a positive integer!")
+
         self.health = health
         self.damage = damage
         self.defen = defen
@@ -44,7 +57,7 @@ class EliteCard(Card, Combatable, Magical):
     def defend(self, incoming_damage: int) -> dict:
         """Defend against incoming damage."""
         alive = True
-
+        damage_taken = 0
         if incoming_damage > self.defen:
             damage_taken = incoming_damage - self.defen
             self.health -= damage_taken

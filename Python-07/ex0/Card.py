@@ -20,7 +20,7 @@ class Card(ABC):
             raise ValueError("[ERROR] Invalid rarity!")
 
         # Validate cost
-        if not isinstance(cost, int) or cost < 0:
+        if not isinstance(cost, int) or cost <= 0:
             raise ValueError("[ERROR] cost must be a positive integer!")
 
         self.name = name

@@ -47,8 +47,10 @@ class FantasyCardFactory(CardFactory):
 
         if isinstance(name_or_power, str):
             creature = random.choice(list(cards.items()))
+            creature[0] = name_or_power
         elif isinstance(name_or_power, int):
             creature = random.choice(list(cards.items()))
+            creature[1]['damage'] = name_or_power
         else:
             creature = random.choice(list(cards.items()))
 

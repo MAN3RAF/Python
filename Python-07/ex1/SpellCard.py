@@ -29,9 +29,9 @@ class SpellCard(Card):
         if 'available_mana' in game_state:
             if game_state['available_mana'] >= self.cost:
                 if self.effect_type == "damage":
-                    self.effect = "deal 3 damage to target"
+                    self.effect = f"deal {self.cost} damage to target"
                 elif self.effect_type == "heal":
-                    self.effect = "+3 health points"
+                    self.effect = f"+{self.cost} health points"
                 elif self.effect_type == "buff":
                     self.effect = "damage buff for 3 turns"
                 else:
@@ -56,9 +56,9 @@ class SpellCard(Card):
             elif self.effect_type == "heal":
                 target.health += self.cost
             elif self.effect_type == "buff":
-                target.attack *= 2  # Permanent buff!
+                target.attack *= 2
             else:
-                target.attack /= 2  # Permanent debuff!
+                target.attack /= 2
 
         return {
             "Spell": self.name,

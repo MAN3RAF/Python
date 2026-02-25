@@ -14,7 +14,8 @@ class Deck():
 
     def add_card(self, card: Card) -> None:
         """Add a card to the deck."""
-        self.deck.append(card)
+        if isinstance(card, Card):
+            self.deck.append(card)
 
     def remove_card(self, card_name: str) -> bool:
         """Remove a card by name from the deck."""

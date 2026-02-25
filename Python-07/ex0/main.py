@@ -8,12 +8,8 @@ def main() -> None:
     print("Testing Abstract Base Class Design:\n")
 
     # Create test cards
-    try:
-        card = CreatureCard("Fire Dragon", 5, "Legendary", 7, 5)
-        enemy_card = CreatureCard("Goblin Warrior", 1, "Common", 2, 3)
-    except ValueError as e:
-        print(e)
-        exit(1)
+    card = CreatureCard("Fire Dragon", 5, "Legendary", 7, 5)
+    enemy_card = CreatureCard("Goblin Warrior", 1, "Common", 2, 3)
 
     available_mana = 6
 
@@ -49,11 +45,14 @@ def main() -> None:
     if playable:
         play_res = card.play(info)
         print(f"Playable: {playable}")
-        print(f"Play result: {play_res}\n")
+        print(f"Play result: {play_res}")
     else:
         print("Playable: False")
     print("\nAbstract pattern successfully demonstrated!")
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(e)

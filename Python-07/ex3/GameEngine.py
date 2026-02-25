@@ -13,6 +13,7 @@ class GameEngine:
         self.turns_simulated = 0
         self.total_damage = 0
         self.cards_created = 0
+        self.cards_to_create = 5 #deafult
 
     def configure_engine(self, factory: CardFactory,
                          strategy: GameStrategy) -> None:
@@ -22,7 +23,7 @@ class GameEngine:
 
     def simulate_turn(self) -> dict:
         """Simulate a single turn."""
-        deck = self.factory.create_themed_deck(5)
+        deck = self.factory.create_themed_deck(self.cards_to_create)
         hand = deck['cards'][:3]
         battlefield = deck['cards'][3:5]
 
@@ -31,7 +32,7 @@ class GameEngine:
 
         self.turns_simulated += 1
         self.total_damage += result['damage_dealt']
-        self.cards_created += 5
+        self.cards_created += self.cards_to_create
 
         return result
 

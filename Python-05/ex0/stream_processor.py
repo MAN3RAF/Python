@@ -14,7 +14,6 @@ class DataProcessor(ABC):
     def format_output(self, result: str) -> str:
         return f"Output: {result}"
 
-
 class NumericProcessor(DataProcessor):
     def __init__(self) -> None:
         super().__init__()
@@ -136,7 +135,7 @@ def main() -> None:
     ]
     inputs: List[Union[List[int], str]] = [
         [1, 2, 3],
-        "Hello Nexus",
+        "Hello Nexus ",
         "INFO: System ready",
     ]
 

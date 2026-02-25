@@ -19,7 +19,7 @@ def main() -> None:
     )
     card2 = SpellCard('Lightning Bolt', 3, "Rare", "damage")
     card3 = ArtifactCard(
-        'Mana Crystal', 2, "Epic", 5, "Permanent: +1 mana per turn"
+        'Mana Crystal', 2, "Epic", 5, "Permanent: +1 mana per turn"   #catch exceptions!!!!
     )
 
     deck.add_card(card1)
@@ -36,11 +36,11 @@ def main() -> None:
         card = deck.draw_card()
 
         if isinstance(card, SpellCard):
-            print("Drew: Lightning Bolt (Spell)")
+            print(f"Drew: {card.name} (Spell)")
         elif isinstance(card, ArtifactCard):
-            print("Drew: Mana Crystal (Artifact)")
+            print(f"Drew: {card.name} (Artifact)")
         elif isinstance(card, CreatureCard):
-            print("Drew: Fire Dragon (Creature)")
+            print(f"Drew: {card.name} (Creature)")
 
         game_status = card.get_card_info()
         game_status['available_mana'] = player_mana
@@ -57,4 +57,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(e)
