@@ -46,7 +46,7 @@ class SpellCard(Card):
             'effect': self.effect,
         }
 
-    def resolve_effect(self, targets: list[Any]) -> dict:
+    def resolve_effect(self, targets: list) -> dict:
         """Resolve spell effect on target list."""
         for target in targets:
             if self.effect_type == "damage":

@@ -41,7 +41,7 @@ class EliteCard(Card, Combatable, Magical):
             'combat_type': self.combat_type
         }
 
-    def attack(self, target: Any) -> dict:
+    def attack(self, target) -> dict:
         """Attack a target, dealing damage."""
         target.health -= self.damage
         if target.health < 0:

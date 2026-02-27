@@ -45,7 +45,7 @@ class CreatureCard(Card):
             "health": self.health,
         }
 
-    def attack_target(self, target: Any) -> dict:
+    def attack_target(self, target) -> dict:
         """Attack another creature, dealing damage equal to attack value."""
         print(f"{self.name} attacks {target.name}:")
         # Deal damage to target
