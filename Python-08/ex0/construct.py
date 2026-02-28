@@ -2,18 +2,19 @@ import sys
 import os
 import site
 
+
 def main() -> None:
 
     current_python = sys.executable
-    venv_name =  os.path.basename(sys.prefix)
+    venv_name = os.path.basename(sys.prefix)
 
     if sys.prefix == sys.base_prefix:
         print("\nMATRIX STATUS: You're still plugged in")
-        
+
         print(f"\nCurrent Python: {current_python}")
-        
+
         print("Virtual Environment: None detected\n")
-        
+
         print("To enter the construct, run:")
         print("python -m venv matrix_env")
         print("source matrix_env/bin/activate # On Unix")
@@ -36,5 +37,6 @@ def main() -> None:
 
         print("\nPackage installation path:")
         print(f"{site.getsitepackages()[0]}")
+
 
 main()

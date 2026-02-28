@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import os
 
+
 def check_missing():
 
     mode = os.getenv("MATRIX_MODE")
@@ -10,11 +11,11 @@ def check_missing():
     zion_url = os.getenv("ZION_ENDPOINT")
 
     confs = {
-        "MATRIX_MODE":mode,
-        "DATABASE_URL":db_url,
-        "API_KEY":key,
-        "LOG_LEVEL":log,
-        "ZION_ENDPOINT":zion_url
+        "MATRIX_MODE": mode,
+        "DATABASE_URL": db_url,
+        "API_KEY": key,
+        "LOG_LEVEL": log,
+        "ZION_ENDPOINT": zion_url
         }
 
     missing = []
@@ -24,6 +25,7 @@ def check_missing():
             missing.append(key)
 
     return missing, confs
+
 
 def main():
 
@@ -43,16 +45,15 @@ def main():
             print(f"Mode: {value}")
         elif "DATABASE_URL" == key:
             if "localhost" in value:
-                print(f"Database: Connected to local instance")
+                print("Database: Connected to local instance")
             else:
-                print(f"Database: Connected")
+                print("Database: Connected")
         elif "API_KEY" == key:
-            print(f"API Access: Authenticated")
+            print("API Access: Authenticated")
         elif "LOG_LEVEL" == key:
             print(f"Log Level: {value}")
         else:
-            print(f"Zion Network: Online")
-
+            print("Zion Network: Online")
 
     print("\nEnvironment security check:")
 
@@ -61,7 +62,7 @@ def main():
         print("[OK] .env file properly configured")
     print("[OK] Production overrides available")
 
-
     print("\nThe Oracle sees all configurations.")
+
 
 main()
