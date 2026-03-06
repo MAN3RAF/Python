@@ -20,12 +20,15 @@ def spell_reducer(spells: list[int], operation: str) -> int:
     return reduced
 
 def partial_enchanter(base_enchantment: callable) -> dict[str, callable]:
-    
-    def enchant():
-        pass
+
+    fire = functools.partial(base_enchantment, power=50, element="Fire")
+    ice = functools.partial(base_enchantment, power=50, element="Ice")
+    lightning = functools.partial(base_enchantment, power=50, element="Lightning")
 
     return {
-        "" : "func",
+        'fire_enchant': fire,
+        'ice_enchant': ice,
+        'lightning_enchant': lightning
     }
 
 def memoized_fibonacci(n: int) -> int:
@@ -34,8 +37,22 @@ def memoized_fibonacci(n: int) -> int:
 def spell_dispatcher() -> callable:
     pass
 
+def base_enchantment(target: str, power: int, element: str):
+    return f"Enchanting {target} with {element} (Power: {power})"
+
 def main():
-    print(spell_reducer([2,5], "add"))
+    # ---spell_reducer test--- #
+    # print(spell_reducer([2,5], "add"))
+
+    # ---partial_enchanter test--- #
+    # spells = partial_enchanter(base_enchantment)
+    # print(spells['fire_enchant']("Iron Sword"))
+    # print(spells['ice_enchant']("Iron Sword"))
+    # print(spells['lightning_enchant']("Iron Sword"))
+
+    # ---memoized_fibonacci test--- #
+
+    pass
 
 if __name__ == "__main__":
     main()
