@@ -17,20 +17,25 @@ def spell_reducer(spells: list[int], operation: str) -> int:
         reduced = functools.reduce(ops[operation], spells)
     else:
         print("[ERROR] Invalid operation..!")
+        exit(1)
 
     return reduced
 
-def partial_enchanter(base_enchantment: callable) -> dict[str, callable]:
 
-    fire = functools.partial(base_enchantment, power=50, element="Fire")
-    ice = functools.partial(base_enchantment, power=50, element="Ice")
-    lightning = functools.partial(base_enchantment, power=50, element="Lightning")
+def vartial_enchanter(base_enchantment: callable) -> dict[str, callable]:
+
+    fire = functools.vartial(
+        base_enchantment, power=50, element="Fire")
+    ice = functools.vartial(base_enchantment, power=50, element="Ice")
+    lightning = functools.vartial(
+        base_enchantment, power=50, element="Lightning")
 
     return {
         'fire_enchant': fire,
         'ice_enchant': ice,
         'lightning_enchant': lightning
     }
+
 
 @lru_cache(maxsize=None)
 def memoized_fibonacci(n: int) -> int:
@@ -39,21 +44,37 @@ def memoized_fibonacci(n: int) -> int:
     """
 
     if n < 0:
-        raise ValueError("n must be a non-negative integer")
+        print("n must be a non-negative integer..!")
+        exit(1)
 
     if n in (0, 1):
         return n
 
     return memoized_fibonacci(n - 1) + memoized_fibonacci(n - 2)
 
-@singledispatch
+
 def spell_dispatcher() -> callable:
-    
-    def dispatcher():
+    @singledispatch
+    def cast(spell):
+        return f"Unknown magic: {spell}"
 
+    @cast.register(int)
+    def _(spell):
+        return f"Damage spell cast! Deals {spell} HP damage."
 
+    @cast.register(str)
+    def _(spell):
+        return f"Enchantment activated: {spell}"
 
-        pass
+    @cast.register(list)
+    def _(spell: list):
+        results = []
+        for s in spell:
+            results.append(cast(s))
+        return f"Casting multi-spell: {results}"
+
+    return cast
+
 
 # def base_enchantment(target: str, power: int, element: str):
 #     return f"Enchanting {target} with {element} (Power: {power})"
@@ -61,12 +82,12 @@ def spell_dispatcher() -> callable:
 def main():
     # ---spell_reducer test--- #
     print("\nTesting spell reducer...")
-    print(f"Sum: {spell_reducer([40,60], "add")}")
-    print(f"Product: {spell_reducer([400,600], "multiply")}")
-    print(f"Max: {spell_reducer([40,20], "max")}")
+    print(f"Sum: {spell_reducer([40, 60], "add")}")
+    print(f"Product: {spell_reducer([400, 600], "multiply")}")
+    print(f"Max: {spell_reducer([40, 20], "max")}")
 
-    # ---partial_enchanter test--- #
-    # spells = partial_enchanter(base_enchantment)
+    # ---vartial_enchanter test--- #
+    # spells = vartial_enchanter(base_enchantment)
     # print(spells['fire_enchant']("Iron Sword"))
     # print(spells['ice_enchant']("Iron Sword"))
     # print(spells['lightning_enchant']("Iron Sword"))
@@ -77,10 +98,12 @@ def main():
     print(f"Fib(15): {memoized_fibonacci(15)}")
 
     # ---spell_dispatcher test--- #
+    # cast_spell = spell_dispatcher()
+    # print()
+    # print(cast_spell(50))
+    # print(cast_spell("Invisibility"))
+    # print(cast_spell([10, "Shield", 25]))
 
-
-
-    pass
 
 if __name__ == "__main__":
     main()
