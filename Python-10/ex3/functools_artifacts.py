@@ -1,4 +1,5 @@
 import functools
+from functools import lru_cache, singledispatch
 import operator
 
 
@@ -31,18 +32,38 @@ def partial_enchanter(base_enchantment: callable) -> dict[str, callable]:
         'lightning_enchant': lightning
     }
 
+@lru_cache(maxsize=None)
 def memoized_fibonacci(n: int) -> int:
-    pass
+    """
+    Return the nth Fibonacci number using memoization.
+    """
 
+    if n < 0:
+        raise ValueError("n must be a non-negative integer")
+
+    if n in (0, 1):
+        return n
+
+    return memoized_fibonacci(n - 1) + memoized_fibonacci(n - 2)
+
+@singledispatch
 def spell_dispatcher() -> callable:
-    pass
+    
+    def dispatcher():
 
-def base_enchantment(target: str, power: int, element: str):
-    return f"Enchanting {target} with {element} (Power: {power})"
+
+
+        pass
+
+# def base_enchantment(target: str, power: int, element: str):
+#     return f"Enchanting {target} with {element} (Power: {power})"
 
 def main():
     # ---spell_reducer test--- #
-    # print(spell_reducer([2,5], "add"))
+    print("\nTesting spell reducer...")
+    print(f"Sum: {spell_reducer([40,60], "add")}")
+    print(f"Product: {spell_reducer([400,600], "multiply")}")
+    print(f"Max: {spell_reducer([40,20], "max")}")
 
     # ---partial_enchanter test--- #
     # spells = partial_enchanter(base_enchantment)
@@ -51,6 +72,13 @@ def main():
     # print(spells['lightning_enchant']("Iron Sword"))
 
     # ---memoized_fibonacci test--- #
+    print("\nTesting memoized fibonacci...")
+    print(f"Fib(10): {memoized_fibonacci(10)}")
+    print(f"Fib(15): {memoized_fibonacci(15)}")
+
+    # ---spell_dispatcher test--- #
+
+
 
     pass
 
