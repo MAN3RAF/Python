@@ -78,13 +78,11 @@ def spell_dispatcher() -> Callable:
 
 
 def main():
-    # ---spell_reducer test--- #
     print("\nTesting spell reducer...")
     print(f"Sum: {spell_reducer([40, 60], "add")}")
     print(f"Product: {spell_reducer([400, 600], "multiply")}")
     print(f"Max: {spell_reducer([40, 20], "max")}")
 
-    # ---memoized_fibonacci test--- #
     print("\nTesting memoized fibonacci...")
     print(f"Fib(10): {memoized_fibonacci(10)}")
     print(f"Fib(15): {memoized_fibonacci(15)}")

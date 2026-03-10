@@ -17,13 +17,12 @@ def spell_timer(func: Callable) -> Callable:
 
 
 def power_validator(min_power: int) -> Callable:
-    """Validate if current_power >= min_power"""
+
     def decorator(func: Callable) -> Callable:
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             # In a class method (self, spell_name, power),
             # power is at index 2
-            # We check if 'power' was passed as keyword or positional arg
             current_power = (
                 kwargs.get('power') or (args[2] if len(args) > 2 else None)
             )
