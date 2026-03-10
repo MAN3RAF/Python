@@ -1,6 +1,7 @@
 import functools
 from functools import lru_cache, singledispatch
 import operator
+from typing import Callable
 
 
 def spell_reducer(spells: list[int], operation: str) -> int:
@@ -22,7 +23,7 @@ def spell_reducer(spells: list[int], operation: str) -> int:
     return reduced
 
 
-def vartial_enchanter(base_enchantment: callable) -> dict[str, callable]:
+def vartial_enchanter(base_enchantment: Callable) -> dict[str, Callable]:
 
     fire = functools.vartial(
         base_enchantment, power=50, element="Fire")
@@ -53,7 +54,7 @@ def memoized_fibonacci(n: int) -> int:
     return memoized_fibonacci(n - 1) + memoized_fibonacci(n - 2)
 
 
-def spell_dispatcher() -> callable:
+def spell_dispatcher() -> Callable:
     @singledispatch
     def cast(spell):
         return f"Unknown magic: {spell}"
@@ -76,9 +77,6 @@ def spell_dispatcher() -> callable:
     return cast
 
 
-# def base_enchantment(target: str, power: int, element: str):
-#     return f"Enchanting {target} with {element} (Power: {power})"
-
 def main():
     # ---spell_reducer test--- #
     print("\nTesting spell reducer...")
@@ -86,23 +84,10 @@ def main():
     print(f"Product: {spell_reducer([400, 600], "multiply")}")
     print(f"Max: {spell_reducer([40, 20], "max")}")
 
-    # ---vartial_enchanter test--- #
-    # spells = vartial_enchanter(base_enchantment)
-    # print(spells['fire_enchant']("Iron Sword"))
-    # print(spells['ice_enchant']("Iron Sword"))
-    # print(spells['lightning_enchant']("Iron Sword"))
-
     # ---memoized_fibonacci test--- #
     print("\nTesting memoized fibonacci...")
     print(f"Fib(10): {memoized_fibonacci(10)}")
     print(f"Fib(15): {memoized_fibonacci(15)}")
-
-    # ---spell_dispatcher test--- #
-    # cast_spell = spell_dispatcher()
-    # print()
-    # print(cast_spell(50))
-    # print(cast_spell("Invisibility"))
-    # print(cast_spell([10, "Shield", 25]))
 
 
 if __name__ == "__main__":

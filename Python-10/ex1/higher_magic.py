@@ -1,6 +1,8 @@
+from typing import Callable
 
-def spell_combiner(spell1, spell2):
-    """Creates a new function that runs two spells at once."""
+
+def spell_combiner(spell1: Callable, spell2: Callable) -> Callable:
+
     def combined_spell(*args, **kwargs):
 
         res1 = spell1(*args, **kwargs)
@@ -10,7 +12,7 @@ def spell_combiner(spell1, spell2):
     return combined_spell
 
 
-def power_amplifier(base_spell: callable, multiplier: int) -> callable:
+def power_amplifier(base_spell: Callable, multiplier: int) -> Callable:
 
     def amplified_power(*args, **kwargs):
 
@@ -21,7 +23,7 @@ def power_amplifier(base_spell: callable, multiplier: int) -> callable:
     return amplified_power
 
 
-def conditional_caster(condition: callable, spell: callable) -> callable:
+def conditional_caster(condition: Callable, spell: Callable) -> Callable:
 
     def cast_spell(*args, **kwargs):
 
@@ -33,7 +35,7 @@ def conditional_caster(condition: callable, spell: callable) -> callable:
     return cast_spell
 
 
-def spell_sequence(spells: list[callable]) -> callable:
+def spell_sequence(spells: list[Callable]) -> Callable:
 
     def cast_spells(*args, **kwargs):
         spells_casted = []
@@ -49,11 +51,11 @@ def spell_sequence(spells: list[callable]) -> callable:
 
 def main():
 
-    def fireball(target): return f"Fireball hits {target}"
+    def fireball(target): return f"Fireball hits {target},"
     def heal(target): return f"Heals {target}"
     def original(x): return x
 
-    print("Testing spell combiner...")
+    print("\nTesting spell combiner...")
     combined = spell_combiner(fireball, heal)
     print(f"Combined spell result: {combined('Dragon')}")
 
